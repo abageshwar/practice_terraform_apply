@@ -10,7 +10,7 @@ variable "location" {
 variable "failover_location" {
   default = "westus1"
 }
-variable "resourcegroup" {
+variable "resourcegroup"  {
   type        = string
   default     = "iacteam2-arv"
   description = "Resource group name"
