@@ -47,4 +47,10 @@ resource "azurerm_kubernetes_cluster" "main" {
   tags = {
     environment = "Demo"
   }
+  network_profile {
+    network_plugin    = "kubenet"
+    load_balancer_sku = "standard"
+  }
+
+  
 }
