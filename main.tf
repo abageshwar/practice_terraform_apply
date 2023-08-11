@@ -1,9 +1,9 @@
 resource "azurerm_resource_group" "rg" {
-  name     = "iacteam2-mt-rg"
-  location = "westus"
+  name     = var.resourcegroup
+  location = var.location
 }
 resource "azurerm_storage_account" "rg" {
-  name                     = "mttstorageaccount"
+  name                     = var.storageaccount
   resource_group_name      = azurerm_resource_group.rg.name
   location                 = azurerm_resource_group.rg.location
   account_tier             = "Standard"
@@ -13,14 +13,14 @@ resource "azurerm_storage_account" "rg" {
   }
 }
 resource "azurerm_storage_container" "rg" {
-  name                  = "tfstate"
+  name                  = var.azurerm_storage_container
   storage_account_name  = azurerm_storage_account.rg.name
   container_access_type = "private"
 }
-resource "azurerm_cosmosdb_account" "mt" {
+resource "azurerm_cosmosdb_account" "dbaccount" {
   name                      = var.cosmosdb_account_name
   location                  = var.cosmosdb_account_location
-  resource_group_name       = "iacteam2-mt-rg"
+  resource_group_name       = azurerm_resource_group.rg.name
   offer_type                = "Standard"
   kind                      = "GlobalDocumentDB"
   enable_automatic_failover = false
@@ -34,36 +34,43 @@ resource "azurerm_cosmosdb_account" "mt" {
     max_staleness_prefix    = 100000
   }
   depends_on = [
-    azurerm_resource_group.rg
+    var.resource_group_name
   ]
 }
-resource "azurerm_cosmosdb_sql_database" "mt" {
+resource "azurerm_cosmosdb_sql_database" "sqldb" {
   name                = var.cosmosdb_sqldb_name
-  resource_group_name = "iacteam2-mt-rg"
-  account_name        = azurerm_cosmosdb_account.mt.name
+  resource_group_name = var.resourcegroup
+  account_name        = azurerm_cosmosdb_account.dbaccount.name
   throughput          = var.throughput
 }
 resource "azurerm_cosmosdb_sql_container" "main" {
   name                  = var.sql_container_name
-  resource_group_name   = "iacteam2-mt-rg"
-  account_name          = azurerm_cosmosdb_account.mt.name
-  database_name         = azurerm_cosmosdb_sql_database.mt.name
+  resource_group_name   = var.resourcegroup
+  account_name          = azurerm_cosmosdb_account.dbaccount.name
+  database_name         = azurerm_cosmosdb_sql_database.sqldb.name
   partition_key_path    = "/definition/id"
   partition_key_version = 1
-  throughput            = 400
+  throughput            = var.throughput
+  
   indexing_policy {
     indexing_mode = "consistent"
+
     included_path {
       path = "/*"
     }
+
     included_path {
       path = "/included/?"
     }
+
     excluded_path {
       path = "/excluded/?"
     }
   }
+
   unique_key {
     paths = ["/definition/idlong", "/definition/idshort"]
   }
 }
+
+

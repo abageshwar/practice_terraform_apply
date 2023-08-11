@@ -3,10 +3,10 @@
 
 terraform {
   backend "azurerm" {
-    resource_group_name  = "iacteam2resourcegrp"
-    storage_account_name = "arvcosmosdbtfstate"
-    container_name       = "tfstate"
-    key                  = "terraform.tfstate"
+    resource_group_name  = var.resourcegroup
+    storage_account_name = var.storageaccount
+    container_name       = var.azurerm_storage_container
+    key                  = "dev-terraform.tfstate"
   }
 }
 
