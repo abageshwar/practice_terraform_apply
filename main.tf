@@ -1,22 +1,3 @@
-resource "azurerm_resource_group" "rg" {
-  name     = var.resourcegroup
-  location = var.location
-}
-resource "azurerm_storage_account" "rg" {
-  name                     = var.storageaccount
-  resource_group_name      = azurerm_resource_group.rg.name
-  location                 = azurerm_resource_group.rg.location
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-  tags = {
-    environment = "staging"
-  }
-}
-resource "azurerm_storage_container" "rg" {
-  name                  = var.azurerm_storage_container
-  storage_account_name  = azurerm_storage_account.rg.name
-  container_access_type = "private"
-}
 resource "azurerm_cosmosdb_account" "dbaccount" {
   name                      = var.cosmosdb_account_name
   location                  = var.cosmosdb_account_location
