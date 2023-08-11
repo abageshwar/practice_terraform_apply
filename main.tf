@@ -34,7 +34,7 @@ resource "azurerm_cosmosdb_account" "dbaccount" {
     max_staleness_prefix    = 100000
   }
   depends_on = [
-    resource_group_name.azurerm_resource_group.rg
+    azurerm_resource_group.rg
   ]
 }
 resource "azurerm_cosmosdb_sql_database" "sqldb" {
