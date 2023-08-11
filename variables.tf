@@ -3,7 +3,7 @@
 
 variable "location" {
   type        = string
-  default     = "westus2"
+  default     = "westusd2"
   description = "Resource group location"
 }
 
