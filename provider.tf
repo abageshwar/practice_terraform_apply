@@ -1,14 +1,6 @@
 # Copyright (c) HashiCorp, Inc.
 # SPDX-License-Identifier: MPL-2.0
 
-terraform {
-  backend "azurerm" {
-    resource_group_name  = var.resourcegroup
-    storage_account_name = var.storageaccount
-    container_name       = var.azurerm_storage_container
-    key                  = "dev-terraform.tfstate"
-  }
-}
 
 terraform {
   required_providers {
@@ -17,6 +9,15 @@ terraform {
       version = "3.68.0"
     }
   }
+  backend "azurerm" {
+    resource_group_name  = "iacteam2-arv"
+    storage_account_name = "arvstorageaccount"
+    container_name       = "tfstate"
+    key                  = "dev-terraform.tfstate"
+  }
+
+
+
 }
 
 provider "azurerm" {
