@@ -8,7 +8,7 @@ variable "location" {
 }
 
 variable "failover_location" {
-  default = "westus1"
+  default = "westus"
 }
 variable "resourcegroup"  {
   type        = string
