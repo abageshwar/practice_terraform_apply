@@ -26,3 +26,25 @@ resource "azurerm_cosmosdb_mongo_database" "mongodb" {
   account_name        = azurerm_cosmosdb_account.dbaccount.name
   throughput          = 400
 }
+
+
+resource "azurerm_kubernetes_cluster" "main" {
+  name                = var.k8clustername
+  location            = var.location
+  resource_group_name = var.resourcegroup
+  dns_prefix          = var.prefix
+  default_node_pool {
+    name            = "default"
+    node_count      = 2
+    vm_size         = "Standard_B2s"
+    os_disk_size_gb = 30
+  }
+  service_principal {
+    client_id     = var.client_id
+    client_secret = var.client_secret
+  }
+
+  tags = {
+    environment = "Demo"
+  }
+}
