@@ -9,6 +9,12 @@ terraform {
       version = "3.68.0"
     }
   }
+  backend "azurerm" {
+    resource_group_name  = "iacteam2-arv"
+    storage_account_name = "arvstorageaccount"
+    container_name       = "tfstate"
+    key                  = "terraform.tfstate"
+  }  
 }
 
 provider "azurerm" {
