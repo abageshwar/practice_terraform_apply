@@ -1,7 +1,7 @@
 resource "azurerm_cosmosdb_account" "dbaccount" {
   name                      = var.cosmosdb_account_name
   location                  = var.cosmosdb_account_location
-  resource_group_name       = azurerm_resource_group.rg.name
+  resource_group_name       = var.resourcegroup
   offer_type                = "Standard"
   kind                      = "GlobalDocumentDB"
   enable_automatic_failover = false
@@ -15,7 +15,7 @@ resource "azurerm_cosmosdb_account" "dbaccount" {
     max_staleness_prefix    = 100000
   }
   depends_on = [
-    azurerm_resource_group.rg
+    var.resourcegroup
   ]
 }
 resource "azurerm_cosmosdb_sql_database" "sqldb" {
