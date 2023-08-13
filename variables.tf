@@ -89,3 +89,27 @@ variable "role_based_access_control" {
   description = "Enable Role Based Access Control."
   nullable    = false
 }
+
+variable "mongodb_collection_name" {
+  description = "[Required] The name of the mongo collection name in which to create the db collection in mongodb."
+  type        = string
+  default     = "admin"
+}
+
+variable "mongodb_throughput" {
+  description = "(Optional) The throughput of the MongoDB collection (RU/s). Must be set in increments of 100. The minimum value is 400. This must be set upon database creation otherwise it cannot be updated without a manual terraform destroy-apply."
+  type        = number
+  default     = 400
+}
+
+variable "index_keys" {
+  description = "[Required] Specifies the list of user settable keys for each Cosmos DB Mongo Collection."
+  type        = list(string)
+  default     = ["_id"]
+}
+
+variable "index_unique" {
+  description = "(Optional) If collection index key usage is unique value as True or if not unique value as False ?."
+  type        = bool
+  default     = false
+}

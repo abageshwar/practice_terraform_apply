@@ -27,6 +27,21 @@ resource "azurerm_cosmosdb_mongo_database" "mongodb" {
   throughput          = 400
 }
 
+resource "azurerm_cosmosdb_mongo_collection" "collection" {
+  name                = var.mongodb_collection_name
+  resource_group_name = var.resourcegroup
+  account_name        = var.cosmosdb_account_name
+  database_name       = azurerm_cosmosdb_mongo_database.mongodb.name
+
+  default_ttl_seconds = "-1"
+  throughput          = var.mongodb_throughput
+  depends_on          = [azurerm_cosmosdb_mongo_database.mongodb]
+
+  index {
+    keys   = var.index_keys
+    unique = var.index_unique
+  }
+}
 
 resource "azurerm_kubernetes_cluster" "main" {
   name                = var.k8clustername
