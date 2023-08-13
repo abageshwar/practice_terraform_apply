@@ -93,7 +93,7 @@ variable "role_based_access_control" {
 variable "mongodb_collection_name" {
   description = "[Required] The name of the mongo collection name in which to create the db collection in mongodb."
   type        = string
-  default     = "admin"
+  default     = "admincollection"
 }
 
 variable "mongodb_throughput" {
