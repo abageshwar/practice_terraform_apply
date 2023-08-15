@@ -26,12 +26,12 @@ variable "client_secret" {
 
 variable "location" {
   type        = string
-  default     = "westus2"
+  default     = "westus"
   description = "Resource group location"
 }
 
 variable "failover_location" {
-  default = "westus"
+  default = "westus2"
 }
 variable "resourcegroup"  {
   type        = string
